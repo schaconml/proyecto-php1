@@ -1,0 +1,27 @@
+# Taller PHP - configuracion de Apache (XAMPP)
+#
+# Este archivo se aplica al directorio del proyecto dentro de htdocs.
+# Las reglas usan rutas relativas, por lo que el proyecto funciona en cualquier carpeta.
+#
+# Nota tecnica: en .htaccess un patron de RewriteRule no puede contener espacios
+# (Apache separa los argumentos por espacio), por eso se usan reglas de prefijo.
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # 1) El codigo de la aplicacion no se expone por HTTP.
+    RewriteRule ^src/ - [F,L]
+
+    # 2) Carpetas y archivos de desarrollo tampoco se exponen.
+    RewriteRule ^(SKILLS|DOCSDEV)/ - [F,L]
+    RewriteRule ^\.git - [F,L]
+    RewriteRule ^\.md$ - [F,L]
+    RewriteRule ^\.htaccess$ - [F,L]
+    RewriteRule ^AI_Skills - [F,L]
+    RewriteRule ^Taller - [F,L]
+
+    # 3) Front Controller: solo se sirven directamente los archivos que existen
+    #    (CSS, imagenes). Cualquier otra ruta la resuelve public/index.php.
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ public/index.php [QSA,L]
+</IfModule>
