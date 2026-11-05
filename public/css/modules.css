@@ -136,6 +136,71 @@
     overflow-wrap: anywhere;
 }
 
+/* Opciones y series ------------------------------------------------------ */
+
+.form-fieldset {
+    margin: 0;
+    padding: var(--space-3);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+}
+
+.form-legend {
+    padding-inline: var(--space-1);
+    font-weight: 600;
+    color: var(--color-text);
+}
+
+.option-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.option-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+}
+
+.option-input {
+    accent-color: var(--color-accent-strong);
+}
+
+.option-label {
+    cursor: pointer;
+}
+
+.sequence {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: term;
+}
+
+.sequence-item {
+    display: grid;
+    place-items: center;
+    min-width: 3rem;
+    padding: var(--space-1) var(--space-2);
+    font-family: var(--font-mono);
+    background-color: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+}
+
+.result-note {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--color-muted);
+}
+
 /* Detalles ---------------------------------------------------------------- */
 
 .app-details {

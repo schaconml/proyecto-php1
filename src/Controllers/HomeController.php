@@ -46,8 +46,8 @@ final class HomeController
                 'number'      => 2,
                 'name'        => 'Fibonacci y Factorial',
                 'description' => 'Calcula la sucesion de Fibonacci o el factorial del numero ingresado mediante un formulario con selector de operacion.',
-                'slug'        => null,
-                'ready'       => false,
+                'slug'        => 'fibonacci-factorial',
+                'ready'       => true,
             ],
             [
                 'number'      => 3,

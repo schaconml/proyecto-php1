@@ -4,11 +4,15 @@ declare(strict_types=1);
 
 use App\Controllers\AcronymController;
 use App\Controllers\BinaryController;
+use App\Controllers\FibonacciFactorialController;
 use App\Controllers\HomeController;
 use App\Controllers\Request;
 use App\Config\Container;
 use App\Models\AcronymGenerator;
 use App\Models\BinaryConverter;
+use App\Models\FibonacciGenerator;
+use App\Models\FactorialGenerator;
+use App\Models\OperationSelector;
 use App\Views\View;
 
 /**
@@ -24,6 +28,15 @@ return static function (Request $request, View $view): Container {
     // Modelos: no dependen de nada externo, se pueden instanciar directamente.
     $container->set(AcronymGenerator::class, new AcronymGenerator());
     $container->set(BinaryConverter::class, new BinaryConverter());
+    $container->set(FibonacciGenerator::class, new FibonacciGenerator());
+    $container->set(FactorialGenerator::class, new FactorialGenerator());
+    $container->set(
+        OperationSelector::class,
+        new OperationSelector(
+            $container->get(FibonacciGenerator::class),
+            $container->get(FactorialGenerator::class)
+        )
+    );
 
     // Controladores: reciben por constructor lo que necesitan.
     $container->set(
@@ -37,6 +50,10 @@ return static function (Request $request, View $view): Container {
     $container->set(
         BinaryController::class,
         new BinaryController($request, $view, $container->get(BinaryConverter::class))
+    );
+    $container->set(
+        FibonacciFactorialController::class,
+        new FibonacciFactorialController($request, $view, $container->get(OperationSelector::class))
     );
 
     return $container;

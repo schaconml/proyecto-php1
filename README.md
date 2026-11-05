@@ -7,7 +7,7 @@ sobre una arquitectura **MVC construida desde cero** (sin frameworks de terceros
 | # | Aplicación | Estado | Descripción |
 |---|---|---|---|
 | 1 | Acrónimo | **Disponible** | Convierte una frase en su acrónimo (los guiones separan palabras; el resto de la puntuación se elimina). |
-| 2 | Fibonacci / Factorial | Pendiente | Formulario con selección de operación que genera la serie de Fibonacci o el factorial. |
+| 2 | Fibonacci / Factorial | **Disponible** | Formulario con selección de operación que genera la serie de Fibonacci o el factorial. |
 | 3 | Estadísticas | Pendiente | Promedio, media (mediana) y moda de una serie de números reales de cantidad variable. |
 | 4 | Conjuntos | Pendiente | Unión, intersección y diferencias `A-B` y `B-A` sobre conjuntos de enteros. |
 | 5 | Binario | **Disponible** | Conversión de un número entero a su representación binaria. |
@@ -143,6 +143,7 @@ Ambos comandos devuelven `0` en caso de éxito y `1` si detectan un fallo.
 | `feature/setup-base-datos` | Esquema de base de datos, Singleton PDO y esqueleto de la arquitectura MVC. |
 | `feature/tarea1` | Infraestructura de inyección de dependencias, validador y **Aplicación 1: Acrónimo**. |
 | `feature/tarea5` | **Aplicación 5: Conversor a binario**. |
+| `feature/tarea2` | **Aplicación 2: Fibonacci y Factorial**. |
 
 > El archivo `.gitignore` se mantiene **solo en el entorno local** y no se versiona en
 > ninguna rama, por lo que los archivos de desarrollo (`SKILLS/`, `DOCSDEV/`,
@@ -150,7 +151,7 @@ Ambos comandos devuelven `0` en caso de éxito y `1` si detectan un fallo.
 
 ## Estado actual
 
-En `feature/tarea5` se encuentra:
+En `feature/tarea2` se encuentra:
 
 - Base de datos `app_taller_php` con la tabla `historial_calculadora` verificada en MySQL 10.4.
 - `Database` (Singleton PDO) con conexión comprobada.
@@ -159,5 +160,8 @@ En `feature/tarea5` se encuentra:
 - `.htaccess` que protege `/src`, `/SKILLS`, `/DOCSDEV`, `/.git` y los archivos de desarrollo.
 - **Aplicación 1 — Acrónimo** disponible en `/acronimo`.
 - **Aplicación 5 — Binario** disponible en `/binario` (admite negativos con signo y magnitud).
+- **Aplicación 2 — Fibonacci y Factorial** disponible en `/fibonacci-factorial` (patrón Strategy:
+  `SequenceGenerator` + `FibonacciGenerator` + `FactorialGenerator` + `OperationSelector`;
+  el factorial exacto por encima de 20! se calcula con `bcmath`).
 
-Las aplicaciones 2, 3, 4, 6 y 7 se desarrollan en las ramas siguientes.
+Las aplicaciones 3, 4, 6 y 7 se desarrollan en las ramas siguientes.

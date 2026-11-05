@@ -110,11 +110,16 @@ final class Validator
             $digits = '0';
         }
 
-        $limit = $negative
-            ? ltrim((string) PHP_INT_MIN, '-')
-            : (string) PHP_INT_MAX;
+        // La comparacion se hace sobre el texto para no perder precision con
+        // los limites de un entero de 64 bits.
+        if ($negative) {
+            $withinRange = $min < 0 && self::compareDigits($digits, ltrim((string) $min, '-')) <= 0;
+        } else {
+            $withinRange = self::compareDigits($digits, (string) $max) <= 0
+                && self::compareDigits($digits, (string) max($min, 0)) >= 0;
+        }
 
-        if (self::compareDigits($digits, $limit) > 0) {
+        if (!$withinRange) {
             return $this->addError(
                 $field,
                 sprintf('El campo "%s" debe estar entre %d y %d.', $label, $min, $max)
@@ -134,6 +139,17 @@ final class Validator
         }
 
         return strcmp($digits, $limit) <=> 0;
+    }
+
+    /**
+     * Registra un error de validacion de forma explicita.
+     *
+     * Se usa cuando la regla depende de un dato que el propio validador no
+     * puede interpretar (por ejemplo, una operacion de un catalogo).
+     */
+    public function error(string $field, string $message): self
+    {
+        return $this->addError($field, $message);
     }
 
     public function fails(): bool

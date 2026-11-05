@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Controllers\AcronymController;
 use App\Controllers\BinaryController;
+use App\Controllers\FibonacciFactorialController;
 use App\Controllers\HomeController;
 
 /**
@@ -14,12 +15,14 @@ use App\Controllers\HomeController;
  */
 return [
     'GET' => [
-        '/'         => [HomeController::class, 'index'],
-        '/acronimo' => [AcronymController::class, 'index'],
-        '/binario'  => [BinaryController::class, 'index'],
+        '/'                 => [HomeController::class, 'index'],
+        '/acronimo'         => [AcronymController::class, 'index'],
+        '/binario'          => [BinaryController::class, 'index'],
+        '/fibonacci-factorial' => [FibonacciFactorialController::class, 'index'],
     ],
     'POST' => [
-        '/acronimo' => [AcronymController::class, 'store'],
-        '/binario'  => [BinaryController::class, 'store'],
+        '/acronimo'         => [AcronymController::class, 'store'],
+        '/binario'          => [BinaryController::class, 'store'],
+        '/fibonacci-factorial' => [FibonacciFactorialController::class, 'store'],
     ],
 ];
