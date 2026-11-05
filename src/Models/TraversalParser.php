@@ -64,4 +64,47 @@ final class TraversalParser
 
         return $values;
     }
+
+    /**
+     * Analiza a la vez los tres recorridos indicados.
+     *
+     * Solo se procesan los recorridos con contenido; cada error queda
+     * asociado a su propio recorrido para poder mostrarse en su campo.
+     *
+     * @param array<string, string> $raw
+     *
+     * @return array{traversals: array<string, list<string>>, errors: array<string, string>}
+     */
+    public function parseMany(array $raw): array
+    {
+        $traversals = [];
+        $errors = [];
+
+        foreach ($raw as $type => $value) {
+            if (trim($value) === '') {
+                continue;
+            }
+
+            try {
+                $traversals[$type] = $this->parse($value, self::labelFor($type));
+            } catch (InvalidArgumentException $exception) {
+                $errors[$type] = $exception->getMessage();
+            }
+        }
+
+        return ['traversals' => $traversals, 'errors' => $errors];
+    }
+
+    /**
+     * Nombre del recorrido tal como aparece en el enunciado.
+     */
+    private static function labelFor(string $type): string
+    {
+        return match ($type) {
+            'preorder'  => 'preorden',
+            'inorder'   => 'inorden',
+            'postorder' => 'postorden',
+            default     => $type,
+        };
+    }
 }

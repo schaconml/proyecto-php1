@@ -6,6 +6,7 @@ namespace App\Controllers;
 
 use App\Models\CalculationOperation;
 use App\Models\Calculator;
+use App\Models\CalculatorHistoryEntry;
 use App\Models\CalculatorHistoryRepository;
 use App\Models\Validator;
 use App\Views\View;
@@ -129,19 +130,10 @@ final class CalculatorController
      */
     private function render(array $data = []): string
     {
-        $history = [];
-
-        foreach ($this->repository->findAll() as $entry) {
-            $history[] = [
-                'id'           => $entry->id,
-                'number1'      => $entry->number1,
-                'operation'    => CalculationOperation::label($entry->operation),
-                'number2'      => $entry->number2,
-                'result'       => $entry->result,
-                'registeredAt' => $entry->registeredAt,
-                'isoDate'      => $entry->isoDate(),
-            ];
-        }
+        $history = array_map(
+            static fn (CalculatorHistoryEntry $entry): array => $entry->toRow(),
+            $this->repository->findAll()
+        );
 
         return $this->view->render('calculator', array_merge([
             'number1'   => '',

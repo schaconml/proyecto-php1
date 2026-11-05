@@ -57,20 +57,9 @@ final class TreeController
             TreeBuilderFactory::POSTORDER => (string) $this->request->postParam('postorder', ''),
         ];
 
-        $errors = [];
-        $traversals = [];
-
-        foreach ($raw as $type => $value) {
-            if (trim($value) === '') {
-                continue;
-            }
-
-            try {
-                $traversals[$type] = $this->parser->parse($value, $this->label($type));
-            } catch (InvalidArgumentException $exception) {
-                $errors[$type] = $exception->getMessage();
-            }
-        }
+        $parsed = $this->parser->parseMany($raw);
+        $errors = $parsed['errors'];
+        $traversals = $parsed['traversals'];
 
         $layout = null;
         $computed = [];
@@ -97,15 +86,5 @@ final class TreeController
             'traversals' => $computed,
             'errors'     => $errors,
         ], 'Arbol binario');
-    }
-
-    private function label(string $type): string
-    {
-        return match ($type) {
-            TreeBuilderFactory::PREORDER  => 'preorden',
-            TreeBuilderFactory::INORDER   => 'inorden',
-            TreeBuilderFactory::POSTORDER => 'postorden',
-            default                       => $type,
-        };
     }
 }

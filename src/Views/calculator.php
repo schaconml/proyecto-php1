@@ -57,7 +57,7 @@ $operations = [
             <label class="form-label" for="operacion">Operación</label>
             <select class="form-input" id="operacion" name="operacion">
                 <?php foreach ($operations as $value => $label): ?>
-                    <option value="<?= $this->e($value) ?>" <?= $operation === $value ? 'selected' : '' ?>>
+                    <option value="<?= $this->e($value) ?>" <?= $this->e($operation === $value ? 'selected' : '') ?>>
                         <?= $this->e($label) ?>
                     </option>
                 <?php endforeach; ?>
