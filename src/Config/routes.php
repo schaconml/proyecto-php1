@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Controllers\AcronymController;
+use App\Controllers\BinaryController;
 use App\Controllers\HomeController;
 
 /**
@@ -13,10 +14,12 @@ use App\Controllers\HomeController;
  */
 return [
     'GET' => [
-        '/'        => [HomeController::class, 'index'],
+        '/'         => [HomeController::class, 'index'],
         '/acronimo' => [AcronymController::class, 'index'],
+        '/binario'  => [BinaryController::class, 'index'],
     ],
     'POST' => [
         '/acronimo' => [AcronymController::class, 'store'],
+        '/binario'  => [BinaryController::class, 'store'],
     ],
 ];

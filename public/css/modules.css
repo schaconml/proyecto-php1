@@ -104,6 +104,28 @@
     margin: 0;
 }
 
+.result-list {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: var(--space-1) var(--space-3);
+    margin: 0;
+}
+
+.result-list dt {
+    color: var(--color-muted);
+}
+
+.result-list dd {
+    margin: 0;
+    font-family: var(--font-mono);
+    overflow-wrap: anywhere;
+}
+
+.result-list code {
+    font-family: var(--font-mono);
+    color: var(--color-accent);
+}
+
 .result-output {
     display: block;
     font-family: var(--font-mono);

@@ -67,8 +67,8 @@ final class HomeController
                 'number'      => 5,
                 'name'        => 'Binario',
                 'description' => 'Convierte un numero entero a su representacion binaria.',
-                'slug'        => null,
-                'ready'       => false,
+                'slug'        => 'binario',
+                'ready'       => true,
             ],
             [
                 'number'      => 6,

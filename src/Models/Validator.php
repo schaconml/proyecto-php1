@@ -67,6 +67,75 @@ final class Validator
         return $this;
     }
 
+    /**
+     * Comprueba que el texto represente un numero entero (signo opcional).
+     */
+    public function integer(string $field, string $value, string $label): self
+    {
+        $trimmed = trim($value);
+
+        if ($trimmed === '') {
+            return $this;
+        }
+
+        if (!preg_match('/^[+-]?\d+$/u', $trimmed)) {
+            return $this->addError(
+                $field,
+                sprintf('El campo "%s" debe contener un numero entero.', $label)
+            );
+        }
+
+        return $this;
+    }
+
+    /**
+     * Comprueba que el entero esté dentro del rango indicado.
+     *
+     * La comparacion se hace sobre el texto para no perder precision con los
+     * limites de un entero de 64 bits.
+     */
+    public function integerBetween(string $field, string $value, int $min, int $max, string $label): self
+    {
+        $trimmed = trim($value);
+
+        if ($trimmed === '' || !preg_match('/^[+-]?\d+$/u', $trimmed)) {
+            return $this;
+        }
+
+        $negative = str_starts_with($trimmed, '-');
+        $digits = ltrim($negative ? substr($trimmed, 1) : $trimmed, '+');
+        $digits = ltrim($digits, '0');
+
+        if ($digits === '') {
+            $digits = '0';
+        }
+
+        $limit = $negative
+            ? ltrim((string) PHP_INT_MIN, '-')
+            : (string) PHP_INT_MAX;
+
+        if (self::compareDigits($digits, $limit) > 0) {
+            return $this->addError(
+                $field,
+                sprintf('El campo "%s" debe estar entre %d y %d.', $label, $min, $max)
+            );
+        }
+
+        return $this;
+    }
+
+    /**
+     * Compara dos cadenas numericas positivas por longitud y luego lexicograficamente.
+     */
+    private static function compareDigits(string $digits, string $limit): int
+    {
+        if (strlen($digits) !== strlen($limit)) {
+            return strlen($digits) <=> strlen($limit);
+        }
+
+        return strcmp($digits, $limit) <=> 0;
+    }
+
     public function fails(): bool
     {
         return $this->errors !== [];

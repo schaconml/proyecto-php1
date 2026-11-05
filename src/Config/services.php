@@ -3,10 +3,12 @@
 declare(strict_types=1);
 
 use App\Controllers\AcronymController;
+use App\Controllers\BinaryController;
 use App\Controllers\HomeController;
 use App\Controllers\Request;
 use App\Config\Container;
 use App\Models\AcronymGenerator;
+use App\Models\BinaryConverter;
 use App\Views\View;
 
 /**
@@ -21,6 +23,7 @@ return static function (Request $request, View $view): Container {
 
     // Modelos: no dependen de nada externo, se pueden instanciar directamente.
     $container->set(AcronymGenerator::class, new AcronymGenerator());
+    $container->set(BinaryConverter::class, new BinaryConverter());
 
     // Controladores: reciben por constructor lo que necesitan.
     $container->set(
@@ -30,6 +33,10 @@ return static function (Request $request, View $view): Container {
     $container->set(
         AcronymController::class,
         new AcronymController($request, $view, $container->get(AcronymGenerator::class))
+    );
+    $container->set(
+        BinaryController::class,
+        new BinaryController($request, $view, $container->get(BinaryConverter::class))
     );
 
     return $container;

@@ -10,7 +10,7 @@ sobre una arquitectura **MVC construida desde cero** (sin frameworks de terceros
 | 2 | Fibonacci / Factorial | Pendiente | Formulario con selección de operación que genera la serie de Fibonacci o el factorial. |
 | 3 | Estadísticas | Pendiente | Promedio, media (mediana) y moda de una serie de números reales de cantidad variable. |
 | 4 | Conjuntos | Pendiente | Unión, intersección y diferencias `A-B` y `B-A` sobre conjuntos de enteros. |
-| 5 | Binario | Pendiente | Conversión de un número entero a su representación binaria. |
+| 5 | Binario | **Disponible** | Conversión de un número entero a su representación binaria. |
 | 6 | Árbol binario | Pendiente | Construcción del árbol a partir de dos o tres recorridos (preorden, inorden, postorden). |
 | 7 | Calculadora | Pendiente | Suma, resta, multiplicación, división y porcentaje, con historial persistido en MySQL. |
 
@@ -142,21 +142,22 @@ Ambos comandos devuelven `0` en caso de éxito y `1` si detectan un fallo.
 | `main` | Estado estable y publicado. |
 | `feature/setup-base-datos` | Esquema de base de datos, Singleton PDO y esqueleto de la arquitectura MVC. |
 | `feature/tarea1` | Infraestructura de inyección de dependencias, validador y **Aplicación 1: Acrónimo**. |
+| `feature/tarea5` | **Aplicación 5: Conversor a binario**. |
 
 > El archivo `.gitignore` se mantiene **solo en el entorno local** y no se versiona en
 > ninguna rama, por lo que los archivos de desarrollo (`SKILLS/`, `DOCSDEV/`,
-> `Taller php.md`) no forman parte del repositorio publicado.
+> `Taller php.md`) y el arnés de pruebas (`tests/`) no forman parte del repositorio publicado.
 
 ## Estado actual
 
-En `feature/tarea1` se encuentra:
+En `feature/tarea5` se encuentra:
 
 - Base de datos `app_taller_php` con la tabla `historial_calculadora` verificada en MySQL 10.4.
 - `Database` (Singleton PDO) con conexión comprobada.
 - Autoloader, `Request`, `Router`, `View`, `Container`, `Validator`, mapa de rutas y menú.
 - Front controller operativo con URLs limpias (`/proyecto-php1/...`) y respuestas 404.
 - `.htaccess` que protege `/src`, `/SKILLS`, `/DOCSDEV`, `/.git` y los archivos de desarrollo.
-- **Aplicación 1 — Acrónimo** disponible en `/acronimo`, con validación en el servidor,
-  mensajes de error accesibles y hoja de estilos externa.
+- **Aplicación 1 — Acrónimo** disponible en `/acronimo`.
+- **Aplicación 5 — Binario** disponible en `/binario` (admite negativos con signo y magnitud).
 
-Las aplicaciones 2 a 7 se desarrollan en las ramas siguientes.
+Las aplicaciones 2, 3, 4, 6 y 7 se desarrollan en las ramas siguientes.

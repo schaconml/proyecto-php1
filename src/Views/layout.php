@@ -30,6 +30,9 @@ declare(strict_types=1);
                 <li class="nav-item">
                     <a class="nav-link" href="<?= $this->e($this->url('/acronimo')) ?>">Acronimo</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="<?= $this->e($this->url('/binario')) ?>">Binario</a>
+                </li>
             </ul>
         </nav>
     </header>
