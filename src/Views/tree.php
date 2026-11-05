@@ -98,6 +98,29 @@ $labels = [
     <?php endif; ?>
 
     <details class="app-details">
+        <summary class="details-summary">Ejemplos para probar</summary>
+        <ul class="details-list">
+            <li>
+                <strong>Ejemplo del enunciado (5 nodos):</strong>
+                Preorden <code>A B D E C</code> &middot;
+                Inorden <code>D B E A C</code> &middot;
+                Postorden <code>D E B C A</code>
+            </li>
+            <li>
+                <strong>Ejemplo de 11 nodos con números y letras:</strong>
+                <a href="<?= $this->e($this->url('/arbol') . '?preorder=' . rawurlencode('1 2 4 8 9 5 A B 3 6 7') . '&amp;inorder=' . rawurlencode('8 4 9 2 A 5 B 1 6 3 7') . '&amp;postorder=' . rawurlencode('8 9 4 A B 5 2 6 7 3 1')) ?>">
+                    Cargar este ejemplo en el formulario
+                </a>
+                <br>
+                Preorden <code>1 2 4 8 9 5 A B 3 6 7</code> &middot;
+                Inorden <code>8 4 9 2 A 5 B 1 6 3 7</code> &middot;
+                Postorden <code>8 9 4 A B 5 2 6 7 3 1</code>
+            </li>
+            <li>Los nodos pueden ser <strong>letras o números</strong>, uno por carácter, sin repetidos.</li>
+        </ul>
+    </details>
+
+    <details class="app-details">
         <summary class="details-summary">Cómo se reconstruye el árbol</summary>
         <ul class="details-list">
             <li><strong>Preorden e inorden:</strong> la raíz es el primer elemento del preorden y su posición en el inorden separa los subárboles.</li>

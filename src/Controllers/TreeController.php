@@ -34,12 +34,19 @@ final class TreeController
     /**
      * Muestra el formulario con los tres recorridos.
      */
+    /**
+     * Muestra el formulario con los tres recorridos.
+     *
+     * Si la URL trae los recorridos en la cadena de consulta (por ejemplo el
+     * enlace de ejemplo que ofrece la vista) el formulario aparece precargado.
+     * Es la forma de cargar un ejemplo sin usar JavaScript.
+     */
     public function index(): string
     {
         return $this->view->render('tree', [
-            'preorder'   => '',
-            'inorder'    => '',
-            'postorder'  => '',
+            'preorder'   => (string) $this->request->queryParam('preorder', ''),
+            'inorder'    => (string) $this->request->queryParam('inorder', ''),
+            'postorder'  => (string) $this->request->queryParam('postorder', ''),
             'layout'     => null,
             'traversals' => [],
             'errors'     => [],

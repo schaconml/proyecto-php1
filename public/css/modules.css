@@ -71,8 +71,34 @@
     cursor: pointer;
 }
 
-.btn:hover {
+.btn:hover,
+.btn:focus-visible {
     border-color: var(--color-accent);
+    color: var(--color-text);
+}
+
+/*
+ * Los botones son enlaces, y la regla generica "a:hover" (especificidad 0,1,1)
+ * tiene mas peso que ".btn" (0,1,0). Si no se sube la especificidad, al pasar
+ * el mouse el texto del boton tomaba el color del fondo y se hacia invisible.
+ * Estas reglas (0,2,0) ganan al enlace generico y fijan el color en cada estado.
+ */
+.btn-primary,
+.btn-primary:hover,
+.btn-primary:focus-visible {
+    color: var(--color-btn-text);
+}
+
+.btn-primary:hover,
+.btn-primary:focus-visible {
+    background-color: var(--color-accent);
+    border-color: var(--color-accent);
+}
+
+.btn-danger,
+.btn-danger:hover,
+.btn-danger:focus-visible {
+    color: var(--color-danger-text);
 }
 
 .btn-primary {
