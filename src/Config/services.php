@@ -7,12 +7,16 @@ use App\Controllers\BinaryController;
 use App\Controllers\FibonacciFactorialController;
 use App\Controllers\HomeController;
 use App\Controllers\Request;
+use App\Controllers\SetsController;
 use App\Config\Container;
 use App\Models\AcronymGenerator;
+use App\Models\ArraySetOperations;
 use App\Models\BinaryConverter;
 use App\Models\FibonacciGenerator;
 use App\Models\FactorialGenerator;
 use App\Models\OperationSelector;
+use App\Models\SetOperations;
+use App\Models\SetParser;
 use App\Views\View;
 
 /**
@@ -37,6 +41,8 @@ return static function (Request $request, View $view): Container {
             $container->get(FactorialGenerator::class)
         )
     );
+    $container->set(SetParser::class, new SetParser());
+    $container->set(SetOperations::class, new ArraySetOperations());
 
     // Controladores: reciben por constructor lo que necesitan.
     $container->set(
@@ -54,6 +60,15 @@ return static function (Request $request, View $view): Container {
     $container->set(
         FibonacciFactorialController::class,
         new FibonacciFactorialController($request, $view, $container->get(OperationSelector::class))
+    );
+    $container->set(
+        SetsController::class,
+        new SetsController(
+            $request,
+            $view,
+            $container->get(SetParser::class),
+            $container->get(SetOperations::class)
+        )
     );
 
     return $container;

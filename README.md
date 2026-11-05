@@ -9,7 +9,7 @@ sobre una arquitectura **MVC construida desde cero** (sin frameworks de terceros
 | 1 | Acrónimo | **Disponible** | Convierte una frase en su acrónimo (los guiones separan palabras; el resto de la puntuación se elimina). |
 | 2 | Fibonacci / Factorial | **Disponible** | Formulario con selección de operación que genera la serie de Fibonacci o el factorial. |
 | 3 | Estadísticas | Pendiente | Promedio, media (mediana) y moda de una serie de números reales de cantidad variable. |
-| 4 | Conjuntos | Pendiente | Unión, intersección y diferencias `A-B` y `B-A` sobre conjuntos de enteros. |
+| 4 | Conjuntos | **Disponible** | Unión, intersección y diferencias `A-B` y `B-A` sobre conjuntos de enteros. |
 | 5 | Binario | **Disponible** | Conversión de un número entero a su representación binaria. |
 | 6 | Árbol binario | Pendiente | Construcción del árbol a partir de dos o tres recorridos (preorden, inorden, postorden). |
 | 7 | Calculadora | Pendiente | Suma, resta, multiplicación, división y porcentaje, con historial persistido en MySQL. |
@@ -144,6 +144,7 @@ Ambos comandos devuelven `0` en caso de éxito y `1` si detectan un fallo.
 | `feature/tarea1` | Infraestructura de inyección de dependencias, validador y **Aplicación 1: Acrónimo**. |
 | `feature/tarea5` | **Aplicación 5: Conversor a binario**. |
 | `feature/tarea2` | **Aplicación 2: Fibonacci y Factorial**. |
+| `feature/tarea4` | **Aplicación 4: Operaciones entre conjuntos**. |
 
 > El archivo `.gitignore` se mantiene **solo en el entorno local** y no se versiona en
 > ninguna rama, por lo que los archivos de desarrollo (`SKILLS/`, `DOCSDEV/`,
@@ -151,7 +152,7 @@ Ambos comandos devuelven `0` en caso de éxito y `1` si detectan un fallo.
 
 ## Estado actual
 
-En `feature/tarea2` se encuentra:
+En `feature/tarea4` se encuentra:
 
 - Base de datos `app_taller_php` con la tabla `historial_calculadora` verificada en MySQL 10.4.
 - `Database` (Singleton PDO) con conexión comprobada.
@@ -163,5 +164,8 @@ En `feature/tarea2` se encuentra:
 - **Aplicación 2 — Fibonacci y Factorial** disponible en `/fibonacci-factorial` (patrón Strategy:
   `SequenceGenerator` + `FibonacciGenerator` + `FactorialGenerator` + `OperationSelector`;
   el factorial exacto por encima de 20! se calcula con `bcmath`).
+- **Aplicación 4 — Conjuntos** disponible en `/conjuntos` (`IntegerSet` como objeto de valor
+  normalizado, `SetOperations` + `ArraySetOperations` para unión, intersección y diferencias,
+  y `SetParser` para validar la entrada).
 
-Las aplicaciones 3, 4, 6 y 7 se desarrollan en las ramas siguientes.
+Las aplicaciones 3, 6 y 7 se desarrollan en las ramas siguientes.

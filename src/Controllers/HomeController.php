@@ -60,8 +60,8 @@ final class HomeController
                 'number'      => 4,
                 'name'        => 'Conjuntos',
                 'description' => 'Operaciones entre dos conjuntos de enteros: union, interseccion y las diferencias A-B y B-A.',
-                'slug'        => null,
-                'ready'       => false,
+                'slug'        => 'conjuntos',
+                'ready'       => true,
             ],
             [
                 'number'      => 5,
