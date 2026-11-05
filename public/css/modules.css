@@ -246,6 +246,52 @@
     color: var(--color-muted);
 }
 
+/* Arbol binario ----------------------------------------------------------- */
+
+.tree-figure {
+    margin: 0;
+    padding: var(--space-3);
+    background-color: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    overflow-x: auto;
+}
+
+.tree-svg {
+    display: block;
+    width: 100%;
+    min-width: 420px;
+    height: auto;
+    max-height: 560px;
+}
+
+.tree-edge {
+    stroke: var(--color-border);
+    stroke-width: 2;
+}
+
+.tree-node-circle {
+    fill: var(--color-surface-alt);
+    stroke: var(--color-accent);
+    stroke-width: 2;
+}
+
+.tree-node-label {
+    fill: var(--color-text);
+    font-family: var(--font-mono);
+    font-size: 20px;
+    font-weight: 700;
+    text-anchor: middle;
+    dominant-baseline: central;
+}
+
+.tree-caption {
+    margin-top: var(--space-2);
+    font-size: 0.9rem;
+    color: var(--color-muted);
+    text-align: center;
+}
+
 /* Detalles ---------------------------------------------------------------- */
 
 .app-details {

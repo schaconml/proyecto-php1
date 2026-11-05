@@ -74,8 +74,8 @@ final class HomeController
                 'number'      => 6,
                 'name'        => 'Arbol binario',
                 'description' => 'Construye un arbol binario a partir de dos o tres recorridos: preorden, inorden y postorden.',
-                'slug'        => null,
-                'ready'       => false,
+                'slug'        => 'arbol',
+                'ready'       => true,
             ],
             [
                 'number'      => 7,

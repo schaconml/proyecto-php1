@@ -1,0 +1,109 @@
+<?php
+
+declare(strict_types=1);
+
+/**
+ * Aplicacion 6: construccion de arboles binarios a partir de sus recorridos.
+ *
+ * Variables esperadas:
+ *  - $preorder   (string) Texto del recorrido en preorden.
+ *  - $inorder    (string) Texto del recorrido en inorden.
+ *  - $postorder  (string) Texto del recorrido en postorden.
+ *  - $layout     (array|null) Posiciones de nodos y aristas para el dibujo.
+ *  - $traversals (array<string, list<string>>) Recorridos calculados sobre el arbol.
+ *  - $errors     (array<string, string>) Errores de validacion indexados por campo.
+ */
+$labels = [
+    'preorder'  => 'Preorden',
+    'inorder'   => 'Inorden',
+    'postorder' => 'Postorden',
+];
+?>
+<section class="app-card" aria-labelledby="tree-title">
+    <h2 id="tree-title" class="app-title">6. Árbol binario</h2>
+
+    <p class="app-lead">
+        Ingrese al menos dos de los tres recorridos (preorden, inorden y postorden) y la
+        aplicación construirá el árbol. Si informa los tres, se utiliza el par
+        <strong>preorden e inorden</strong>. Cada nodo se escribe con un solo carácter.
+    </p>
+
+    <form class="app-form" method="post" action="<?= $this->e($this->url('/arbol')) ?>">
+        <?php foreach ($labels as $type => $label): ?>
+            <fieldset class="form-fieldset">
+                <legend class="form-legend"><?= $this->e($label) ?></legend>
+
+                <p class="form-field">
+                    <label class="form-label" for="<?= $this->e($type) ?>">Nodos en <?= $this->e(strtolower($label)) ?></label>
+                    <input class="form-input" type="text" id="<?= $this->e($type) ?>" name="<?= $this->e($type) ?>"
+                        value="<?= $this->e($type === 'preorder' ? $preorder : ($type === 'inorder' ? $inorder : $postorder)) ?>"
+                        placeholder="A B D E C" autocomplete="off">
+                </p>
+
+                <?php if (isset($errors[$type])): ?>
+                    <p class="form-error" role="alert"><?= $this->e($errors[$type]) ?></p>
+                <?php endif; ?>
+            </fieldset>
+        <?php endforeach; ?>
+
+        <?php if (isset($errors['tree'])): ?>
+            <p class="form-error" role="alert"><?= $this->e($errors['tree']) ?></p>
+        <?php endif; ?>
+
+        <p class="form-actions">
+            <button class="btn btn-primary" type="submit">Construir árbol</button>
+        </p>
+    </form>
+
+    <?php if ($layout !== null): ?>
+        <figure class="tree-figure">
+            <svg class="tree-svg" viewBox="0 0 <?= $this->e($layout['width']) ?> <?= $this->e($layout['height']) ?>"
+                role="img" aria-labelledby="tree-svg-title">
+                <title id="tree-svg-title">Árbol binario construido a partir de los recorridos ingresados</title>
+
+                <?php foreach ($layout['edges'] as $edge): ?>
+                    <?php
+                    $from = $layout['nodes'][$edge['from']];
+                    $to = $layout['nodes'][$edge['to']];
+                    ?>
+                    <line class="tree-edge" x1="<?= $this->e($from['x']) ?>" y1="<?= $this->e($from['y']) ?>"
+                        x2="<?= $this->e($to['x']) ?>" y2="<?= $this->e($to['y']) ?>"></line>
+                <?php endforeach; ?>
+
+                <?php foreach ($layout['nodes'] as $node): ?>
+                    <g class="tree-node">
+                        <circle class="tree-node-circle" cx="<?= $this->e($node['x']) ?>" cy="<?= $this->e($node['y']) ?>" r="24"></circle>
+                        <text class="tree-node-label" x="<?= $this->e($node['x']) ?>" y="<?= $this->e($node['y']) ?>"><?= $this->e($node['value']) ?></text>
+                    </g>
+                <?php endforeach; ?>
+            </svg>
+
+            <figcaption class="tree-caption">
+                Árbol reconstruido con <?= $this->e(count($layout['nodes'])) ?> nodos.
+            </figcaption>
+        </figure>
+
+        <section class="result-card" aria-labelledby="tree-traversals-title">
+            <h3 id="tree-traversals-title" class="result-title">Recorridos del árbol construido</h3>
+
+            <dl class="result-list">
+                <?php foreach ($labels as $type => $label): ?>
+                    <?php if (isset($traversals[$type])): ?>
+                        <dt><?= $this->e($label) ?></dt>
+                        <dd><?= $this->e(implode(' ', $traversals[$type])) ?></dd>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+            </dl>
+        </section>
+    <?php endif; ?>
+
+    <details class="app-details">
+        <summary class="details-summary">Cómo se reconstruye el árbol</summary>
+        <ul class="details-list">
+            <li><strong>Preorden e inorden:</strong> la raíz es el primer elemento del preorden y su posición en el inorden separa los subárboles.</li>
+            <li><strong>Preorden y postorden:</strong> la raíz es el último elemento del postorden y la posición de la raíz del subárbol izquierdo define su tamaño.</li>
+            <li><strong>Inorden y postorden:</strong> la raíz es el último elemento del postorden y su posición en el inorden separa los subárboles.</li>
+            <li>La aplicación comprueba que los recorridos <strong>no se contradigan</strong> entre sí antes de dibujar el árbol.</li>
+        </ul>
+    </details>
+</section>

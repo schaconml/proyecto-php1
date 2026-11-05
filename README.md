@@ -11,7 +11,7 @@ sobre una arquitectura **MVC construida desde cero** (sin frameworks de terceros
 | 3 | Estadísticas | Pendiente | Promedio, media (mediana) y moda de una serie de números reales de cantidad variable. |
 | 4 | Conjuntos | **Disponible** | Unión, intersección y diferencias `A-B` y `B-A` sobre conjuntos de enteros. |
 | 5 | Binario | **Disponible** | Conversión de un número entero a su representación binaria. |
-| 6 | Árbol binario | Pendiente | Construcción del árbol a partir de dos o tres recorridos (preorden, inorden, postorden). |
+| 6 | Árbol binario | **Disponible** | Construcción del árbol a partir de dos o tres recorridos (preorden, inorden, postorden). |
 | 7 | Calculadora | Pendiente | Suma, resta, multiplicación, división y porcentaje, con historial persistido en MySQL. |
 
 La **página principal** contiene el menú que redirige a cada aplicación.
@@ -145,6 +145,7 @@ Ambos comandos devuelven `0` en caso de éxito y `1` si detectan un fallo.
 | `feature/tarea5` | **Aplicación 5: Conversor a binario**. |
 | `feature/tarea2` | **Aplicación 2: Fibonacci y Factorial**. |
 | `feature/tarea4` | **Aplicación 4: Operaciones entre conjuntos**. |
+| `feature/tarea6` | **Aplicación 6: Árbol binario a partir de sus recorridos**. |
 
 > El archivo `.gitignore` se mantiene **solo en el entorno local** y no se versiona en
 > ninguna rama, por lo que los archivos de desarrollo (`SKILLS/`, `DOCSDEV/`,
@@ -152,7 +153,7 @@ Ambos comandos devuelven `0` en caso de éxito y `1` si detectan un fallo.
 
 ## Estado actual
 
-En `feature/tarea4` se encuentra:
+En `feature/tarea6` se encuentra:
 
 - Base de datos `app_taller_php` con la tabla `historial_calculadora` verificada en MySQL 10.4.
 - `Database` (Singleton PDO) con conexión comprobada.
@@ -167,5 +168,10 @@ En `feature/tarea4` se encuentra:
 - **Aplicación 4 — Conjuntos** disponible en `/conjuntos` (`IntegerSet` como objeto de valor
   normalizado, `SetOperations` + `ArraySetOperations` para unión, intersección y diferencias,
   y `SetParser` para validar la entrada).
+- **Aplicación 6 — Árbol binario** disponible en `/arbol` (patrón Strategy:
+  `TreeBuilder` + `PreInorderTreeBuilder` / `PrePostorderTreeBuilder` / `InPostorderTreeBuilder`,
+  `TreeBuilderFactory` que elige el par y valida la consistencia, `TreeTraverser`,
+  `TraversalParser` y `TreeLayoutCalculator`; el dibujo se genera en SVG desde el servidor,
+  sin JavaScript).
 
-Las aplicaciones 3, 6 y 7 se desarrollan en las ramas siguientes.
+Las aplicaciones 3 y 7 se desarrollan en las ramas siguientes.

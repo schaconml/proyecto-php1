@@ -37,6 +37,9 @@ declare(strict_types=1);
                     <a class="nav-link" href="<?= $this->e($this->url('/conjuntos')) ?>">Conjuntos</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="<?= $this->e($this->url('/arbol')) ?>">Árbol</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="<?= $this->e($this->url('/binario')) ?>">Binario</a>
                 </li>
             </ul>

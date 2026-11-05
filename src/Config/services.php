@@ -8,15 +8,23 @@ use App\Controllers\FibonacciFactorialController;
 use App\Controllers\HomeController;
 use App\Controllers\Request;
 use App\Controllers\SetsController;
+use App\Controllers\TreeController;
 use App\Config\Container;
 use App\Models\AcronymGenerator;
 use App\Models\ArraySetOperations;
 use App\Models\BinaryConverter;
 use App\Models\FibonacciGenerator;
 use App\Models\FactorialGenerator;
+use App\Models\InPostorderTreeBuilder;
 use App\Models\OperationSelector;
+use App\Models\PreInorderTreeBuilder;
+use App\Models\PrePostorderTreeBuilder;
 use App\Models\SetOperations;
 use App\Models\SetParser;
+use App\Models\TreeBuilderFactory;
+use App\Models\TreeLayoutCalculator;
+use App\Models\TraversalParser;
+use App\Models\TreeTraverser;
 use App\Views\View;
 
 /**
@@ -44,6 +52,23 @@ return static function (Request $request, View $view): Container {
     $container->set(SetParser::class, new SetParser());
     $container->set(SetOperations::class, new ArraySetOperations());
 
+    // Arbol binario: los reconstructions se eligen en tiempo de ejecucion.
+    $container->set(TreeTraverser::class, new TreeTraverser());
+    $container->set(TraversalParser::class, new TraversalParser());
+    $container->set(TreeLayoutCalculator::class, new TreeLayoutCalculator());
+    $container->set(PreInorderTreeBuilder::class, new PreInorderTreeBuilder());
+    $container->set(PrePostorderTreeBuilder::class, new PrePostorderTreeBuilder());
+    $container->set(InPostorderTreeBuilder::class, new InPostorderTreeBuilder());
+    $container->set(
+        TreeBuilderFactory::class,
+        new TreeBuilderFactory(
+            $container->get(PreInorderTreeBuilder::class),
+            $container->get(PrePostorderTreeBuilder::class),
+            $container->get(InPostorderTreeBuilder::class),
+            $container->get(TreeTraverser::class)
+        )
+    );
+
     // Controladores: reciben por constructor lo que necesitan.
     $container->set(
         HomeController::class,
@@ -68,6 +93,17 @@ return static function (Request $request, View $view): Container {
             $view,
             $container->get(SetParser::class),
             $container->get(SetOperations::class)
+        )
+    );
+    $container->set(
+        TreeController::class,
+        new TreeController(
+            $request,
+            $view,
+            $container->get(TraversalParser::class),
+            $container->get(TreeBuilderFactory::class),
+            $container->get(TreeTraverser::class),
+            $container->get(TreeLayoutCalculator::class)
         )
     );
 
