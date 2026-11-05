@@ -42,6 +42,9 @@ declare(strict_types=1);
                 <li class="nav-item">
                     <a class="nav-link" href="<?= $this->e($this->url('/binario')) ?>">Binario</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="<?= $this->e($this->url('/estadisticas')) ?>">Estadísticas</a>
+                </li>
             </ul>
         </nav>
     </header>

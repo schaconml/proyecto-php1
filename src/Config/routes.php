@@ -7,6 +7,7 @@ use App\Controllers\BinaryController;
 use App\Controllers\FibonacciFactorialController;
 use App\Controllers\HomeController;
 use App\Controllers\SetsController;
+use App\Controllers\StatisticsController;
 use App\Controllers\TreeController;
 
 /**
@@ -23,6 +24,7 @@ return [
         '/fibonacci-factorial'  => [FibonacciFactorialController::class, 'index'],
         '/conjuntos'            => [SetsController::class, 'index'],
         '/arbol'               => [TreeController::class, 'index'],
+        '/estadisticas'         => [StatisticsController::class, 'index'],
     ],
     'POST' => [
         '/acronimo'             => [AcronymController::class, 'store'],
@@ -30,5 +32,6 @@ return [
         '/fibonacci-factorial'  => [FibonacciFactorialController::class, 'store'],
         '/conjuntos'            => [SetsController::class, 'store'],
         '/arbol'               => [TreeController::class, 'store'],
+        '/estadisticas'         => [StatisticsController::class, 'store'],
     ],
 ];
