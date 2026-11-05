@@ -36,7 +36,7 @@ $options = [
                     <li class="option-item">
                         <input class="option-input" type="radio" id="operation-<?= $this->e($value) ?>"
                             name="operation" value="<?= $this->e($value) ?>"
-                            <?= $operation === $value ? 'checked' : '' ?>>
+                            <?= $this->e($operation === $value ? 'checked' : '') ?>>
                         <label class="option-label" for="operation-<?= $this->e($value) ?>"><?= $this->e($label) ?></label>
                     </li>
                 <?php endforeach; ?>

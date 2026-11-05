@@ -30,4 +30,30 @@ final class CalculatorHistoryEntry
     {
         return str_replace(' ', 'T', $this->registeredAt);
     }
+
+    /**
+     * Convierte el registro en los datos que necesita la vista.
+     *
+     * @return array{
+     *     id: int,
+     *     number1: string,
+     *     operation: string,
+     *     number2: string|null,
+     *     result: string,
+     *     registeredAt: string,
+     *     isoDate: string
+     * }
+     */
+    public function toRow(): array
+    {
+        return [
+            'id'           => $this->id,
+            'number1'      => $this->number1,
+            'operation'    => CalculationOperation::label($this->operation),
+            'number2'      => $this->number2,
+            'result'       => $this->result,
+            'registeredAt' => $this->registeredAt,
+            'isoDate'      => $this->isoDate(),
+        ];
+    }
 }
