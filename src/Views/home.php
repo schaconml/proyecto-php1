@@ -22,7 +22,15 @@ declare(strict_types=1);
                 <article class="module-card">
                     <h3 class="module-title"><?= $this->e($module['number']) ?>. <?= $this->e($module['name']) ?></h3>
                     <p class="module-description"><?= $this->e($module['description']) ?></p>
-                    <p class="module-status">Estado: pendiente de desarrollo</p>
+
+                    <?php if ($module['ready'] && $module['slug'] !== null): ?>
+                        <p class="form-actions">
+                            <a class="btn btn-primary" href="<?= $this->e($this->url('/' . $module['slug'])) ?>">Abrir aplicacion</a>
+                        </p>
+                        <p class="module-badge module-badge-ready">Disponible</p>
+                    <?php else: ?>
+                        <p class="module-badge">Pendiente de desarrollo</p>
+                    <?php endif; ?>
                 </article>
             </li>
         <?php endforeach; ?>

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Core;
+namespace App\Views;
 
 /**
  * Renderizador de plantillas.
@@ -28,7 +28,7 @@ final class View
     {
         $content = $this->partial($template, $data);
 
-        return $this->partial('layouts/main', array_merge($data, [
+        return $this->partial('layout', array_merge($data, [
             'content' => $content,
             'title'   => $title,
         ]));

@@ -15,9 +15,9 @@ declare(strict_types=1);
  */
 
 use App\Autoloader;
-use App\Core\Request;
-use App\Core\Router;
-use App\Core\View;
+use App\Controllers\Request;
+use App\Controllers\Router;
+use App\Views\View;
 
 require_once dirname(__DIR__) . '/src/Autoloader.php';
 
@@ -40,7 +40,11 @@ if ($basePath === '/' || $basePath === '.') {
 
 $request = Request::fromGlobals($basePath, $scriptName);
 $view = new View($basePath);
-$router = new Router($view);
+
+/** @var App\Config\Container $container */
+$container = (require dirname(__DIR__) . '/src/Config/services.php')($request, $view);
+
+$router = new Router($view, $container);
 $router->load(require dirname(__DIR__) . '/src/Config/routes.php');
 
 $router->dispatch($request);
