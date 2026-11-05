@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controllers;
 
-use App\Core\Request;
-use App\Core\View;
+use App\Views\View;
 
 /**
  * Controlador de la pagina principal (menu del taller).
@@ -23,7 +22,7 @@ final class HomeController
 
     public function index(): string
     {
-        return $this->view->render('home/index', [
+        return $this->view->render('home', [
             'modules' => $this->modules(),
         ], 'Taller PHP');
     }

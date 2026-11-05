@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace App\Controllers;
 
-use App\Core\Request;
-use App\Core\Validator;
-use App\Core\View;
-use App\Models\Acronym\AcronymGenerator;
+use App\Models\AcronymGenerator;
+use App\Models\Validator;
+use App\Views\View;
 
 /**
  * Controlador de la aplicacion de acronimos.
@@ -31,7 +30,7 @@ final class AcronymController
      */
     public function index(): string
     {
-        return $this->view->render('acronym/index', [
+        return $this->view->render('acronym', [
             'phrase'  => '',
             'acronym' => null,
             'errors'  => [],
@@ -61,7 +60,7 @@ final class AcronymController
             }
         }
 
-        return $this->view->render('acronym/index', [
+        return $this->view->render('acronym', [
             'phrase'  => $phrase,
             'acronym' => $acronym,
             'errors'  => $errors,

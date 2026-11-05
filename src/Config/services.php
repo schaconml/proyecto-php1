@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 use App\Controllers\AcronymController;
 use App\Controllers\HomeController;
-use App\Core\Container;
-use App\Core\Request;
-use App\Core\View;
-use App\Models\Acronym\AcronymGenerator;
+use App\Controllers\Request;
+use App\Config\Container;
+use App\Models\AcronymGenerator;
+use App\Views\View;
 
 /**
  * Punto unico de composicion: aqui se construyen los objetos y se inyectan

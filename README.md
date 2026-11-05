@@ -77,35 +77,40 @@ proyecto-php1/
 │   └── css/
 │       ├── base.css           # Estilos base (Grid + Flexbox)
 │       └── modules.css        # Estilos de formularios y resultados
-├── src/
-│   ├── Autoloader.php         # Autoloader PSR-4 propio (App\ → src/)
-│   ├── Config/
-│   │   ├── Database.php       # Singleton PDO
-│   │   ├── routes.php         # Mapa de rutas
-│   │   └── services.php       # Punto único de composición (inyección de dependencias)
-│   ├── Core/
-│   │   ├── Request.php        # Envoltura de la petición HTTP
-│   │   ├── Router.php         # Resolución de rutas y despacho
-│   │   ├── View.php           # Renderizado de plantillas y escapado
-│   │   ├── Container.php      # Contenedor de dependencias
-│   │   └── Validator.php      # Validación de entrada reutilizable
-│   ├── Controllers/
-│   │   ├── HomeController.php # Menú principal
-│   │   └── AcronymController.php
-│   ├── Models/
-│   │   └── Acronym/
-│   │       └── AcronymGenerator.php
-│   └── Views/                 # Plantillas HTML5
-└── tests/                     # Pruebas ejecutables desde la línea de comandos
-    ├── Assert.php
-    ├── AcronymGeneratorTest.php
-    ├── run.php
-    └── rules-check.php
+└── src/
+    ├── Autoloader.php         # Autoloader PSR-4 propio (App\ → src/)
+    ├── Config/
+    │   ├── Container.php      # Contenedor de dependencias
+    │   ├── Database.php       # Singleton PDO
+    │   ├── routes.php         # Mapa de rutas
+    │   └── services.php       # Punto único de composición (inyección de dependencias)
+    ├── Controllers/
+    │   ├── AcronymController.php
+    │   ├── BinaryController.php
+    │   ├── HomeController.php # Menú principal
+    │   ├── Request.php        # Envoltura de la petición HTTP
+    │   └── Router.php         # Resolución de rutas y despacho
+    ├── Models/
+    │   ├── AcronymGenerator.php
+    │   ├── BinaryConverter.php
+    │   └── Validator.php      # Validación de entrada reutilizable
+    └── Views/                 # Plantillas HTML5 + motor de renderizado
+        ├── View.php           # Renderizado de plantillas y escapado
+        ├── acronym.php
+        ├── binary.php
+        ├── error-404.php
+        ├── home.php
+        └── layout.php
 ```
+
+La estructura sigue exactamente el plan maestro: `/src/Models` (lógica de negocio),
+`/src/Views` (plantillas), `/src/Controllers` (HTTP) y `/src/Config` (configuración y
+cableado), con `/public` como raíz pública.
 
 ## Pruebas y verificación
 
-El proyecto incluye un arnés de pruebas propio (sin PHPUnit ni dependencias externas):
+El desarrollo local incluye un arnés de pruebas propio (sin PHPUnit ni dependencias
+externas) que **se mantiene solo en el entorno local y no se versiona**:
 
 ```bash
 # Pruebas unitarias del modelo de dominio

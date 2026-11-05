@@ -2,7 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Core;
+namespace App\Controllers;
+
+use App\Config\Container;
+use App\Views\View;
 
 /**
  * Enrutador HTTP.
@@ -104,7 +107,7 @@ final class Router
     {
         http_response_code(404);
 
-        echo $this->view->render('errors/404', [], '404 - Pagina no encontrada');
+        echo $this->view->render('error-404', [], '404 - Pagina no encontrada');
     }
 
     private function normalize(string $path): string
