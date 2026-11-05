@@ -4,15 +4,15 @@ Proyecto del taller de PHP Orientado a Objetos. Implementa 7 aplicaciones indepe
 sobre una arquitectura **MVC construida desde cero** (sin frameworks de terceros) y
 **sin JavaScript**: toda la lógica se ejecuta en el servidor.
 
-| # | Aplicación | Descripción |
-|---|---|---|
-| 1 | Acrónimo | Convierte una frase en su acrónimo (los guiones separan palabras; el resto de la puntuación se elimina). |
-| 2 | Fibonacci / Factorial | Formulario con selección de operación que genera la serie de Fibonacci o el factorial. |
-| 3 | Estadísticas | Promedio, media (mediana) y moda de una serie de números reales de cantidad variable. |
-| 4 | Conjuntos | Unión, intersección y diferencias `A-B` y `B-A` sobre conjuntos de enteros. |
-| 5 | Binario | Conversión de un número entero a su representación binaria. |
-| 6 | Árbol binario | Construcción del árbol a partir de dos o tres recorridos (preorden, inorden, postorden). |
-| 7 | Calculadora | Suma, resta, multiplicación, división y porcentaje, con historial persistido en MySQL. |
+| # | Aplicación | Estado | Descripción |
+|---|---|---|---|
+| 1 | Acrónimo | **Disponible** | Convierte una frase en su acrónimo (los guiones separan palabras; el resto de la puntuación se elimina). |
+| 2 | Fibonacci / Factorial | Pendiente | Formulario con selección de operación que genera la serie de Fibonacci o el factorial. |
+| 3 | Estadísticas | Pendiente | Promedio, media (mediana) y moda de una serie de números reales de cantidad variable. |
+| 4 | Conjuntos | Pendiente | Unión, intersección y diferencias `A-B` y `B-A` sobre conjuntos de enteros. |
+| 5 | Binario | Pendiente | Conversión de un número entero a su representación binaria. |
+| 6 | Árbol binario | Pendiente | Construcción del árbol a partir de dos o tres recorridos (preorden, inorden, postorden). |
+| 7 | Calculadora | Pendiente | Suma, resta, multiplicación, división y porcentaje, con historial persistido en MySQL. |
 
 La **página principal** contiene el menú que redirige a cada aplicación.
 
@@ -75,21 +75,48 @@ proyecto-php1/
 ├── public/                    # Raíz pública (document root lógico)
 │   ├── index.php              # Front Controller
 │   └── css/
-│       └── base.css           # Estilos externos (Grid + Flexbox)
-└── src/
-    ├── Autoloader.php         # Autoloader PSR-4 propio (App\ → src/)
-    ├── Config/
-    │   ├── Database.php       # Singleton PDO
-    │   └── routes.php         # Mapa de rutas
-    ├── Core/
-    │   ├── Request.php        # Envoltura de la petición HTTP
-    │   ├── Router.php         # Resolución de rutas y despacho
-    │   └── View.php           # Renderizado de plantillas y escapado
-    ├── Controllers/
-    │   └── HomeController.php # Menú principal
-    ├── Models/                # Lógica de negocio y acceso a datos
-    └── Views/                 # Plantillas HTML5
+│       ├── base.css           # Estilos base (Grid + Flexbox)
+│       └── modules.css        # Estilos de formularios y resultados
+├── src/
+│   ├── Autoloader.php         # Autoloader PSR-4 propio (App\ → src/)
+│   ├── Config/
+│   │   ├── Database.php       # Singleton PDO
+│   │   ├── routes.php         # Mapa de rutas
+│   │   └── services.php       # Punto único de composición (inyección de dependencias)
+│   ├── Core/
+│   │   ├── Request.php        # Envoltura de la petición HTTP
+│   │   ├── Router.php         # Resolución de rutas y despacho
+│   │   ├── View.php           # Renderizado de plantillas y escapado
+│   │   ├── Container.php      # Contenedor de dependencias
+│   │   └── Validator.php      # Validación de entrada reutilizable
+│   ├── Controllers/
+│   │   ├── HomeController.php # Menú principal
+│   │   └── AcronymController.php
+│   ├── Models/
+│   │   └── Acronym/
+│   │       └── AcronymGenerator.php
+│   └── Views/                 # Plantillas HTML5
+└── tests/                     # Pruebas ejecutables desde la línea de comandos
+    ├── Assert.php
+    ├── AcronymGeneratorTest.php
+    ├── run.php
+    └── rules-check.php
 ```
+
+## Pruebas y verificación
+
+El proyecto incluye un arnés de pruebas propio (sin PHPUnit ni dependencias externas):
+
+```bash
+# Pruebas unitarias del modelo de dominio
+C:\xampp\php\php.exe tests\run.php
+
+# Verificación automática de las reglas del proyecto
+# (sin <div>, <span>, <b>, <i>, estilos inline, <style>, JavaScript ni archivos .js)
+C:\xampp\php\php.exe tests\rules-check.php
+```
+
+Ambos comandos devuelven `0` en caso de éxito y `1` si detectan un fallo.
 
 ## Arquitectura y reglas del proyecto
 
@@ -109,6 +136,7 @@ proyecto-php1/
 |---|---|
 | `main` | Estado estable y publicado. |
 | `feature/setup-base-datos` | Esquema de base de datos, Singleton PDO y esqueleto de la arquitectura MVC. |
+| `feature/tarea1` | Infraestructura de inyección de dependencias, validador y **Aplicación 1: Acrónimo**. |
 
 > El archivo `.gitignore` se mantiene **solo en el entorno local** y no se versiona en
 > ninguna rama, por lo que los archivos de desarrollo (`SKILLS/`, `DOCSDEV/`,
@@ -116,12 +144,14 @@ proyecto-php1/
 
 ## Estado actual
 
-En `feature/setup-base-datos` se encuentra:
+En `feature/tarea1` se encuentra:
 
 - Base de datos `app_taller_php` con la tabla `historial_calculadora` verificada en MySQL 10.4.
 - `Database` (Singleton PDO) con conexión comprobada.
-- Autoloader, `Request`, `Router`, `View`, mapa de rutas, layout principal y menú.
+- Autoloader, `Request`, `Router`, `View`, `Container`, `Validator`, mapa de rutas y menú.
 - Front controller operativo con URLs limpias (`/proyecto-php1/...`) y respuestas 404.
 - `.htaccess` que protege `/src`, `/SKILLS`, `/DOCSDEV`, `/.git` y los archivos de desarrollo.
+- **Aplicación 1 — Acrónimo** disponible en `/acronimo`, con validación en el servidor,
+  mensajes de error accesibles y hoja de estilos externa.
 
-El desarrollo de las 7 aplicaciones continúa en la rama siguiente.
+Las aplicaciones 2 a 7 se desarrollan en las ramas siguientes.

@@ -15,8 +15,10 @@ final class Router
     /** @var array<string, array<string, array{0: class-string, 1: string}>> */
     private array $routes = [];
 
-    public function __construct(private readonly View $view)
-    {
+    public function __construct(
+        private readonly View $view,
+        private readonly Container $container
+    ) {
     }
 
     /**
@@ -60,7 +62,7 @@ final class Router
             [$controllerClass, $action] = $handler;
 
             /** @var object $controller */
-            $controller = new $controllerClass($request, $this->view);
+            $controller = $this->container->get($controllerClass);
 
             echo $controller->{$action}(...$parameters);
 

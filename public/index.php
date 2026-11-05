@@ -40,7 +40,11 @@ if ($basePath === '/' || $basePath === '.') {
 
 $request = Request::fromGlobals($basePath, $scriptName);
 $view = new View($basePath);
-$router = new Router($view);
+
+/** @var App\Core\Container $container */
+$container = (require dirname(__DIR__) . '/src/Config/services.php')($request, $view);
+
+$router = new Router($view, $container);
 $router->load(require dirname(__DIR__) . '/src/Config/routes.php');
 
 $router->dispatch($request);

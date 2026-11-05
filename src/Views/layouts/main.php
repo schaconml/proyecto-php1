@@ -16,6 +16,7 @@ declare(strict_types=1);
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><?= $this->e($title) ?> | Taller PHP</title>
     <link rel="stylesheet" href="<?= $this->e($this->asset('css/base.css')) ?>">
+    <link rel="stylesheet" href="<?= $this->e($this->asset('css/modules.css')) ?>">
 </head>
 <body>
     <header class="site-header">
@@ -25,6 +26,9 @@ declare(strict_types=1);
             <ul class="nav-list">
                 <li class="nav-item">
                     <a class="nav-link" href="<?= $this->e($this->url('/')) ?>">Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="<?= $this->e($this->url('/acronimo')) ?>">Acronimo</a>
                 </li>
             </ul>
         </nav>
