@@ -53,8 +53,8 @@ final class HomeController
                 'number'      => 3,
                 'name'        => 'Estadisticas',
                 'description' => 'Calcula promedio, media (mediana) y moda de una serie de numeros reales cuya cantidad elige el usuario.',
-                'slug'        => null,
-                'ready'       => false,
+                'slug'        => 'estadisticas',
+                'ready'       => true,
             ],
             [
                 'number'      => 4,

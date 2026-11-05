@@ -8,7 +8,7 @@ sobre una arquitectura **MVC construida desde cero** (sin frameworks de terceros
 |---|---|---|---|
 | 1 | Acrónimo | **Disponible** | Convierte una frase en su acrónimo (los guiones separan palabras; el resto de la puntuación se elimina). |
 | 2 | Fibonacci / Factorial | **Disponible** | Formulario con selección de operación que genera la serie de Fibonacci o el factorial. |
-| 3 | Estadísticas | Pendiente | Promedio, media (mediana) y moda de una serie de números reales de cantidad variable. |
+| 3 | Estadísticas | **Disponible** | Promedio, media (mediana) y moda de una serie de números reales de cantidad variable. |
 | 4 | Conjuntos | **Disponible** | Unión, intersección y diferencias `A-B` y `B-A` sobre conjuntos de enteros. |
 | 5 | Binario | **Disponible** | Conversión de un número entero a su representación binaria. |
 | 6 | Árbol binario | **Disponible** | Construcción del árbol a partir de dos o tres recorridos (preorden, inorden, postorden). |
@@ -146,6 +146,7 @@ Ambos comandos devuelven `0` en caso de éxito y `1` si detectan un fallo.
 | `feature/tarea2` | **Aplicación 2: Fibonacci y Factorial**. |
 | `feature/tarea4` | **Aplicación 4: Operaciones entre conjuntos**. |
 | `feature/tarea6` | **Aplicación 6: Árbol binario a partir de sus recorridos**. |
+| `feature/tarea3` | **Aplicación 3: Estadísticas (promedio, media y moda)**. |
 
 > El archivo `.gitignore` se mantiene **solo en el entorno local** y no se versiona en
 > ninguna rama, por lo que los archivos de desarrollo (`SKILLS/`, `DOCSDEV/`,
@@ -153,7 +154,7 @@ Ambos comandos devuelven `0` en caso de éxito y `1` si detectan un fallo.
 
 ## Estado actual
 
-En `feature/tarea6` se encuentra:
+En `feature/tarea3` se encuentra:
 
 - Base de datos `app_taller_php` con la tabla `historial_calculadora` verificada en MySQL 10.4.
 - `Database` (Singleton PDO) con conexión comprobada.
@@ -173,5 +174,9 @@ En `feature/tarea6` se encuentra:
   `TreeBuilderFactory` que elige el par y valida la consistencia, `TreeTraverser`,
   `TraversalParser` y `TreeLayoutCalculator`; el dibujo se genera en SVG desde el servidor,
   sin JavaScript).
+- **Aplicación 3 — Estadísticas** disponible en `/estadisticas` (`StatisticsCalculator` con
+  promedio, media y moda, y `NumberSeriesParser` para la entrada). La cantidad de números la
+  elige el usuario en un flujo de dos pasos resuelto en el servidor: un único formulario con
+  dos botones (`step=amount` genera los campos y `step=statistics` calcula), sin JavaScript.
 
-Las aplicaciones 3 y 7 se desarrollan en las ramas siguientes.
+La aplicación 7 (Calculadora con historial en MySQL) se desarrolla en la rama siguiente.

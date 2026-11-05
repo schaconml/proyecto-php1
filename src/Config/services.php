@@ -8,6 +8,7 @@ use App\Controllers\FibonacciFactorialController;
 use App\Controllers\HomeController;
 use App\Controllers\Request;
 use App\Controllers\SetsController;
+use App\Controllers\StatisticsController;
 use App\Controllers\TreeController;
 use App\Config\Container;
 use App\Models\AcronymGenerator;
@@ -16,11 +17,13 @@ use App\Models\BinaryConverter;
 use App\Models\FibonacciGenerator;
 use App\Models\FactorialGenerator;
 use App\Models\InPostorderTreeBuilder;
+use App\Models\NumberSeriesParser;
 use App\Models\OperationSelector;
 use App\Models\PreInorderTreeBuilder;
 use App\Models\PrePostorderTreeBuilder;
 use App\Models\SetOperations;
 use App\Models\SetParser;
+use App\Models\StatisticsCalculator;
 use App\Models\TreeBuilderFactory;
 use App\Models\TreeLayoutCalculator;
 use App\Models\TraversalParser;
@@ -51,6 +54,8 @@ return static function (Request $request, View $view): Container {
     );
     $container->set(SetParser::class, new SetParser());
     $container->set(SetOperations::class, new ArraySetOperations());
+    $container->set(StatisticsCalculator::class, new StatisticsCalculator());
+    $container->set(NumberSeriesParser::class, new NumberSeriesParser());
 
     // Arbol binario: los reconstructions se eligen en tiempo de ejecucion.
     $container->set(TreeTraverser::class, new TreeTraverser());
@@ -104,6 +109,15 @@ return static function (Request $request, View $view): Container {
             $container->get(TreeBuilderFactory::class),
             $container->get(TreeTraverser::class),
             $container->get(TreeLayoutCalculator::class)
+        )
+    );
+    $container->set(
+        StatisticsController::class,
+        new StatisticsController(
+            $request,
+            $view,
+            $container->get(StatisticsCalculator::class),
+            $container->get(NumberSeriesParser::class)
         )
     );
 
