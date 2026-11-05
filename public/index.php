@@ -55,7 +55,13 @@ try {
     http_response_code(500);
     error_log($exception->getMessage());
 
+    // Si el problema es la base de datos, el mensaje orienta al usuario.
+    $message = str_contains($exception->getMessage(), 'base de datos')
+        ? 'No fue posible conectar con la base de datos. Verifique que MySQL este en ejecucion '
+            . 'y que se haya importado el archivo database.sql.'
+        : 'No fue posible completar la operacion. Intente nuevamente en unos momentos.';
+
     echo $view->render('error-500', [
-        'message' => 'No fue posible completar la operacion. Intente nuevamente en unos momentos.',
+        'message' => $message,
     ], 'Error');
 }

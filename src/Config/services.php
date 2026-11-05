@@ -135,11 +135,15 @@ return static function (Request $request, View $view): Container {
             $container->get(NumberSeriesParser::class)
         )
     );
-    $container->set(
+    // La calculadora se construye de forma perezosa: es la unica aplicacion
+    // que usa la base de datos, asi que la conexion solo se abre cuando se
+    // visita esa ruta. Si MySQL no esta disponible, el resto del sitio
+    // sigue funcionando con normalidad.
+    $container->setFactory(
         CalculatorController::class,
-        new CalculatorController(
-            $request,
-            $view,
+        static fn (Container $container): CalculatorController => new CalculatorController(
+            $container->get(Request::class),
+            $container->get(View::class),
             $container->get(Calculator::class),
             $container->get(CalculatorHistoryRepository::class)
         )

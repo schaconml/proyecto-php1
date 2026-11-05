@@ -20,33 +20,50 @@ La **página principal** contiene el menú que redirige a cada aplicación.
 
 ## Requisitos
 
-- **XAMPP 8.x** (Apache + MySQL/MariaDB) con las extensiones `pdo_mysql`, `mbstring`, `bcmath` y `ctype`.
-- **PHP 8.1+** (probado en PHP 8.2.12).
-- Navegador web.
+| Componente | Versión / detalle |
+|---|---|
+| **PHP** | **8.1 o superior** (probado en 8.2.12). El mínimo lo exigen las propiedades `readonly` y la sintaxis de invocable de primera clase |
+| **Extensiones de PHP** | `pdo_mysql`, `mbstring`, `bcmath` (exactitud del factorial ≥ 21!), `ctype` |
+| **Apache** | 2.4 con `mod_rewrite` **habilitado** y `AllowOverride All` (valores por defecto de XAMPP) |
+| **MySQL / MariaDB** | Puerto **3306** (valor por defecto). El esquema es estándar: funciona en MySQL 8 y en MariaDB 10.4 |
+| **Navegador** | Cualquier navegador actual |
+
+> Las extensiones se comprueban con `php -m` y el módulo de Apache con `php -m` en la salida de
+> Apache o en `http://localhost/phpmyadmin`.
 
 ## Instalación
 
-1. Ubicar el proyecto dentro del `DocumentRoot` de Apache:
+1. Descargar el repositorio y **colocarlo dentro del `DocumentRoot` de Apache** (la carpeta debe
+   terminar con el nombre del repositorio):
 
+   ```bash
+   git clone https://github.com/schaconml/proyecto-php1.git C:\xampp\htdocs\proyecto-php1
    ```
-   C:\xampp\htdocs\proyecto-php1\
-   ```
+
+   También funciona descargando el ZIP de GitHub y descomprimiéndolo en `C:\xampp\htdocs\`.
 
 2. Iniciar **Apache** y **MySQL** desde el panel de control de XAMPP.
 
-3. Crear la base de datos e importar el esquema:
+3. **Crear la base de datos e importar el esquema.** Este paso es imprescindible: el repositorio
+   contiene el *código* y el *esquema* (`database.sql`), pero **no los datos**. El script crea la
+   base `app_taller_php` y la tabla `historial_calculadora` desde cero:
 
    ```bash
    C:\xampp\mysql\bin\mysql.exe -u root -P 3306 < C:\xampp\htdocs\proyecto-php1\database.sql
    ```
 
-   El script `database.sql` crea la base `app_taller_php` y la tabla `historial_calculadora`.
+   Equivalente con phpMyAdmin: crear/importar el archivo `database.sql` desde la pestaña **Importar**.
 
-4. Verificar el acceso:
+4. Verificar el acceso en el navegador:
 
    ```
-   http://localhost:8080/proyecto-php1/
+   http://localhost/proyecto-php1/          # Apache en el puerto 80 (por defecto)
+   http://localhost:8080/proyecto-php1/      # Apache en otro puerto
    ```
+
+   La URL final depende del **puerto de Apache**, no del código: la raíz pública de la aplicación
+   se detecta en tiempo de ejecución, así que el proyecto funciona en cualquier puerto y en
+   cualquier carpeta dentro de `htdocs`.
 
 ### Configuración de la base de datos
 
@@ -65,6 +82,35 @@ valores por defecto de XAMPP:
 > En XAMPP el puerto por defecto de MySQL es `3306` y el de Apache es `80`. Si Apache
 > escucha en otro puerto (por ejemplo `8080`), ajuste la URL de acceso; el proyecto no
 > necesita cambios de código porque la raíz pública se detecta en tiempo de ejecución.
+> Si su MySQL usa **otra contraseña** o **otro puerto**, edite las propiedades
+> `username`, `password` y `port` de ese mismo archivo.
+
+### Verificación antes de presentar
+
+| # | Comprobación | Cómo se hace | Resultado esperado |
+|---|---|---|---|
+| 1 | MySQL está encendido | Panel de XAMPP → MySQL en verde | — |
+| 2 | La base existe | `mysql -u root -P 3306 -e "SHOW DATABASES LIKE 'app_taller_php';"` | `app_taller_php` |
+| 3 | La tabla existe | `mysql -u root -P 3306 app_taller_php -e "SHOW TABLES;"` | `historial_calculadora` |
+| 4 | El sitio carga | Navegar a `http://localhost/proyecto-php1/` | Menú con las 7 aplicaciones |
+| 5 | Las 7 apps responden | Navegar a `/acronimo`, `/binario`, `/fibonacci-factorial`, `/estadisticas`, `/conjuntos`, `/arbol`, `/calculadora` | Todas con su formulario |
+| 6 | La calculadora persiste | `2 + 3` y recargar | El historial muestra la operación |
+| 7 | Se puede borrar el historial | Botón *Borrar todo el historial* | La tabla queda vacía |
+
+### Si algo falla
+
+| Síntoma | Causa probable | Solución |
+|---|---|---|
+| Error 500 en **todas** las páginas | Apache sin `mod_rewrite` o con `AllowOverride None` | Habilitar `mod_rewrite` en `httpd.conf` y `AllowOverride All` en el bloque `<Directory "C:/xampp/htdocs">` |
+| Error 404 en `/proyecto-php1/calculadora` pero el menú sí carga | El `.htaccess` no se está aplicando | Verificar `AllowOverride All` y que el archivo `.htaccess` exista en la raíz del proyecto |
+| La calculadora muestra *«No fue posible conectar con la base de datos…»* | Falta importar `database.sql`, o MySQL está apagado, o las credenciales no coinciden | Importar `database.sql`, encender MySQL y revisar `src/Config/Database.php` |
+| La calculadora funciona pero las otras páginas dan error 500 | PHP < 8.1 (no soporta `readonly`) | Actualizar PHP a 8.1 o superior |
+| El factorial de 21 o más sale mal | Falta la extensión `bcmath` | Activar `bcmath` en `php.ini` |
+| La URL abre el **listado de archivos** en vez del menú | `mod_rewrite` desactivado | Habilitar `mod_rewrite` y recargar |
+
+> **Las otras 6 aplicaciones no dependen de la base de datos**: aunque MySQL esté apagado o el
+> esquema no se haya importado, siguen funcionando con normalidad. Solo la calculadora necesita
+> la base de datos, porque es la única que guarda el historial.
 
 ## Estructura del proyecto
 

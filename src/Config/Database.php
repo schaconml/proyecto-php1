@@ -4,10 +4,12 @@ namespace App\Config;
 
 use PDO;
 use PDOException;
+use RuntimeException;
 
 class Database {
     // Credenciales por defecto de XAMPP
     private $host = '127.0.0.1';
+    private $port = 3306;        // Puerto estandar de MySQL/MariaDB
     private $db_name = 'app_taller_php';
     private $username = 'root'; // Usuario por defecto en XAMPP
     private $password = '';     // Sin contraseña por defecto en XAMPP
@@ -27,7 +29,10 @@ class Database {
                 $instance = new self();
                 
                 // DSN (Data Source Name)
-                $dsn = "mysql:host=" . $instance->host . ";dbname=" . $instance->db_name . ";charset=" . $instance->charset;
+                $dsn = "mysql:host=" . $instance->host
+                     . ";port=" . $instance->port
+                     . ";dbname=" . $instance->db_name
+                     . ";charset=" . $instance->charset;
                 
                 // Opciones de seguridad y manejo de errores para PDO
                 $options = [
