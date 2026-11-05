@@ -39,8 +39,15 @@ class Database {
                 self::$conn = new PDO($dsn, $instance->username, $instance->password, $options);
                 
             } catch(PDOException $exception) {
-                // En un entorno de producción, aquí se guardaría en un archivo de log en vez de imprimirlo
-                die("Error de conexión a la base de datos: " . $exception->getMessage());
+                // Se lanza una excepcion con un mensaje seguro para mostrar al
+                // usuario; la excepcion original queda como causa.previous para
+                // poder revisarla en el registro de errores.
+                throw new RuntimeException(
+                    'No fue posible conectar con la base de datos. Verifique que MySQL este en ejecucion '
+                    . 'y que las credenciales del archivo src/Config/Database.php sean correctas.',
+                    0,
+                    $exception
+                );
             }
         }
 

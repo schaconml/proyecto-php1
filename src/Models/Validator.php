@@ -142,6 +142,50 @@ final class Validator
     }
 
     /**
+     * Comprueba que el texto represente un numero real (admite coma decimal).
+     */
+    public function decimal(string $field, string $value, string $label): self
+    {
+        $normalized = str_replace(',', '.', trim($value));
+
+        if ($normalized === '') {
+            return $this;
+        }
+
+        if (!preg_match('/^[+-]?\d+(\.\d+)?$/u', $normalized)) {
+            return $this->addError(
+                $field,
+                sprintf('El campo "%s" debe contener un numero.', $label)
+            );
+        }
+
+        return $this;
+    }
+
+    /**
+     * Comprueba que el numero real este dentro del rango indicado.
+     */
+    public function decimalBetween(string $field, string $value, float $min, float $max, string $label): self
+    {
+        $normalized = str_replace(',', '.', trim($value));
+
+        if ($normalized === '' || !preg_match('/^[+-]?\d+(\.\d+)?$/u', $normalized)) {
+            return $this;
+        }
+
+        $number = (float) $normalized;
+
+        if ($number < $min || $number > $max) {
+            return $this->addError(
+                $field,
+                sprintf('El campo "%s" debe estar entre %s y %s.', $label, $min, $max)
+            );
+        }
+
+        return $this;
+    }
+
+    /**
      * Registra un error de validacion de forma explicita.
      *
      * Se usa cuando la regla depende de un dato que el propio validador no
