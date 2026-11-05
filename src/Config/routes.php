@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Controllers\AcronymController;
 use App\Controllers\BinaryController;
+use App\Controllers\CalculatorController;
 use App\Controllers\FibonacciFactorialController;
 use App\Controllers\HomeController;
 use App\Controllers\SetsController;
@@ -25,6 +26,7 @@ return [
         '/conjuntos'            => [SetsController::class, 'index'],
         '/arbol'               => [TreeController::class, 'index'],
         '/estadisticas'         => [StatisticsController::class, 'index'],
+        '/calculadora'          => [CalculatorController::class, 'index'],
     ],
     'POST' => [
         '/acronimo'             => [AcronymController::class, 'store'],
@@ -33,5 +35,8 @@ return [
         '/conjuntos'            => [SetsController::class, 'store'],
         '/arbol'               => [TreeController::class, 'store'],
         '/estadisticas'         => [StatisticsController::class, 'store'],
+        '/calculadora'          => [CalculatorController::class, 'store'],
+        '/calculadora/historial/borrar'      => [CalculatorController::class, 'clearHistory'],
+        '/calculadora/historial/borrar/{id}' => [CalculatorController::class, 'deleteEntry'],
     ],
 ];

@@ -81,8 +81,8 @@ final class HomeController
                 'number'      => 7,
                 'name'        => 'Calculadora',
                 'description' => 'Calculadora con suma, resta, multiplicacion, division y porcentaje, con historial almacenado en MySQL.',
-                'slug'        => null,
-                'ready'       => false,
+                'slug'        => 'calculadora',
+                'ready'       => true,
             ],
         ];
     }

@@ -12,7 +12,7 @@ sobre una arquitectura **MVC construida desde cero** (sin frameworks de terceros
 | 4 | Conjuntos | **Disponible** | Unión, intersección y diferencias `A-B` y `B-A` sobre conjuntos de enteros. |
 | 5 | Binario | **Disponible** | Conversión de un número entero a su representación binaria. |
 | 6 | Árbol binario | **Disponible** | Construcción del árbol a partir de dos o tres recorridos (preorden, inorden, postorden). |
-| 7 | Calculadora | Pendiente | Suma, resta, multiplicación, división y porcentaje, con historial persistido en MySQL. |
+| 7 | Calculadora | **Disponible** | Suma, resta, multiplicación, división y porcentaje, con historial persistido en MySQL. |
 
 La **página principal** contiene el menú que redirige a cada aplicación.
 
@@ -147,6 +147,7 @@ Ambos comandos devuelven `0` en caso de éxito y `1` si detectan un fallo.
 | `feature/tarea4` | **Aplicación 4: Operaciones entre conjuntos**. |
 | `feature/tarea6` | **Aplicación 6: Árbol binario a partir de sus recorridos**. |
 | `feature/tarea3` | **Aplicación 3: Estadísticas (promedio, media y moda)**. |
+| `feature/tarea7` | **Aplicación 7: Calculadora con historial en MySQL**. |
 
 > El archivo `.gitignore` se mantiene **solo en el entorno local** y no se versiona en
 > ninguna rama, por lo que los archivos de desarrollo (`SKILLS/`, `DOCSDEV/`,
@@ -154,29 +155,27 @@ Ambos comandos devuelven `0` en caso de éxito y `1` si detectan un fallo.
 
 ## Estado actual
 
-En `feature/tarea3` se encuentra:
+En `feature/tarea7` se encuentran las **7 aplicaciones del taller**:
 
 - Base de datos `app_taller_php` con la tabla `historial_calculadora` verificada en MySQL 10.4.
 - `Database` (Singleton PDO) con conexión comprobada.
 - Autoloader, `Request`, `Router`, `View`, `Container`, `Validator`, mapa de rutas y menú.
-- Front controller operativo con URLs limpias (`/proyecto-php1/...`) y respuestas 404.
+- Front controller operativo con URLs limpias (`/proyecto-php1/...`) y respuestas 404 y 500.
 - `.htaccess` que protege `/src`, `/SKILLS`, `/DOCSDEV`, `/.git` y los archivos de desarrollo.
-- **Aplicación 1 — Acrónimo** disponible en `/acronimo`.
-- **Aplicación 5 — Binario** disponible en `/binario` (admite negativos con signo y magnitud).
-- **Aplicación 2 — Fibonacci y Factorial** disponible en `/fibonacci-factorial` (patrón Strategy:
+- **Aplicación 1 — Acrónimo** en `/acronimo`.
+- **Aplicación 2 — Fibonacci y Factorial** en `/fibonacci-factorial` (patrón Strategy:
   `SequenceGenerator` + `FibonacciGenerator` + `FactorialGenerator` + `OperationSelector`;
   el factorial exacto por encima de 20! se calcula con `bcmath`).
-- **Aplicación 4 — Conjuntos** disponible en `/conjuntos` (`IntegerSet` como objeto de valor
-  normalizado, `SetOperations` + `ArraySetOperations` para unión, intersección y diferencias,
-  y `SetParser` para validar la entrada).
-- **Aplicación 6 — Árbol binario** disponible en `/arbol` (patrón Strategy:
-  `TreeBuilder` + `PreInorderTreeBuilder` / `PrePostorderTreeBuilder` / `InPostorderTreeBuilder`,
+- **Aplicación 3 — Estadísticas** en `/estadisticas` (`StatisticsCalculator` con promedio, media
+  y moda, y `NumberSeriesParser`). La cantidad de números la elige el usuario en un flujo de dos
+  pasos resuelto en el servidor, sin JavaScript.
+- **Aplicación 4 — Conjuntos** en `/conjuntos` (`IntegerSet` como objeto de valor normalizado,
+  `SetOperations` + `ArraySetOperations`, y `SetParser`).
+- **Aplicación 5 — Binario** en `/binario` (admite negativos con signo y magnitud).
+- **Aplicación 6 — Árbol binario** en `/arbol` (patrón Strategy: `TreeBuilder` +
+  `PreInorderTreeBuilder` / `PrePostorderTreeBuilder` / `InPostorderTreeBuilder`,
   `TreeBuilderFactory` que elige el par y valida la consistencia, `TreeTraverser`,
-  `TraversalParser` y `TreeLayoutCalculator`; el dibujo se genera en SVG desde el servidor,
-  sin JavaScript).
-- **Aplicación 3 — Estadísticas** disponible en `/estadisticas` (`StatisticsCalculator` con
-  promedio, media y moda, y `NumberSeriesParser` para la entrada). La cantidad de números la
-  elige el usuario en un flujo de dos pasos resuelto en el servidor: un único formulario con
-  dos botones (`step=amount` genera los campos y `step=statistics` calcula), sin JavaScript.
-
-La aplicación 7 (Calculadora con historial en MySQL) se desarrolla en la rama siguiente.
+  `TraversalParser` y `TreeLayoutCalculator`; el dibujo se genera en SVG desde el servidor).
+- **Aplicación 7 — Calculadora** en `/calculadora` (`Calculator` + `CalculationOperation` y
+  `CalculatorHistoryRepository`, la única clase con SQL, con el `PDO` inyectado por constructor
+  y prepared statements). El historial se borra con POST, entrada por entrada o por completo.

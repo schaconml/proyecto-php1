@@ -41,10 +41,21 @@ if ($basePath === '/' || $basePath === '.') {
 $request = Request::fromGlobals($basePath, $scriptName);
 $view = new View($basePath);
 
-/** @var App\Config\Container $container */
-$container = (require dirname(__DIR__) . '/src/Config/services.php')($request, $view);
+try {
+    /** @var App\Config\Container $container */
+    $container = (require dirname(__DIR__) . '/src/Config/services.php')($request, $view);
 
-$router = new Router($view, $container);
-$router->load(require dirname(__DIR__) . '/src/Config/routes.php');
+    $router = new Router($view, $container);
+    $router->load(require dirname(__DIR__) . '/src/Config/routes.php');
 
-$router->dispatch($request);
+    $router->dispatch($request);
+} catch (Throwable $exception) {
+    // Cualquier error inesperado se muestra como una pagina 500 con un
+    // mensaje seguro; el detalle tecnico queda en el registro del servidor.
+    http_response_code(500);
+    error_log($exception->getMessage());
+
+    echo $view->render('error-500', [
+        'message' => 'No fue posible completar la operacion. Intente nuevamente en unos momentos.',
+    ], 'Error');
+}

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Controllers\AcronymController;
 use App\Controllers\BinaryController;
+use App\Controllers\CalculatorController;
 use App\Controllers\FibonacciFactorialController;
 use App\Controllers\HomeController;
 use App\Controllers\Request;
@@ -11,9 +12,13 @@ use App\Controllers\SetsController;
 use App\Controllers\StatisticsController;
 use App\Controllers\TreeController;
 use App\Config\Container;
+use App\Config\Database;
 use App\Models\AcronymGenerator;
 use App\Models\ArraySetOperations;
 use App\Models\BinaryConverter;
+use App\Models\CalculationOperation;
+use App\Models\Calculator;
+use App\Models\CalculatorHistoryRepository;
 use App\Models\FibonacciGenerator;
 use App\Models\FactorialGenerator;
 use App\Models\InPostorderTreeBuilder;
@@ -56,6 +61,16 @@ return static function (Request $request, View $view): Container {
     $container->set(SetOperations::class, new ArraySetOperations());
     $container->set(StatisticsCalculator::class, new StatisticsCalculator());
     $container->set(NumberSeriesParser::class, new NumberSeriesParser());
+    $container->set(Calculator::class, new Calculator());
+
+    // El repositorio abre la conexion de forma perezosa: solo las aplicaciones
+    // que necesitan la base de datos la abren, y si MySQL no esta disponible
+    // el resto del sitio sigue funcionando.
+    $container->setFactory(
+        CalculatorHistoryRepository::class,
+        static fn (): CalculatorHistoryRepository
+            => new CalculatorHistoryRepository(Database::getConnection())
+    );
 
     // Arbol binario: los reconstructions se eligen en tiempo de ejecucion.
     $container->set(TreeTraverser::class, new TreeTraverser());
@@ -118,6 +133,15 @@ return static function (Request $request, View $view): Container {
             $view,
             $container->get(StatisticsCalculator::class),
             $container->get(NumberSeriesParser::class)
+        )
+    );
+    $container->set(
+        CalculatorController::class,
+        new CalculatorController(
+            $request,
+            $view,
+            $container->get(Calculator::class),
+            $container->get(CalculatorHistoryRepository::class)
         )
     );
 
